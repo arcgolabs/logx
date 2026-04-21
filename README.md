@@ -25,6 +25,6 @@ go get github.com/arcgolabs/arcgo/logx@latest
 - Output / rotation / defaults: [Configuration](./docs/configuration.md)
 - Trace context + oops: [Trace and oops](./docs/trace-and-oops.md)
 
-## Runnable examples (repository)
+## Runnable examples
 
 - Trace context: [examples/logx/trace_context](./examples/trace_context/main.go)
