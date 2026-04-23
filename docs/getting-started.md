@@ -17,7 +17,7 @@ package main
 import (
 	"log/slog"
 
-	"github.com/arcgolabs/arcgo/logx"
+	"github.com/arcgolabs/logx"
 )
 
 func main() {

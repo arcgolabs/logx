@@ -1,4 +1,4 @@
-module github.com/DaiYuANg/arcgo/examples/logx
+module github.com/arcgolabs/logx/examples
 
 go 1.26.2
 

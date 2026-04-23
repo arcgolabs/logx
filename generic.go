@@ -3,7 +3,7 @@ package logx
 import (
 	"log/slog"
 
-	"github.com/DaiYuANg/arcgo/collectionx"
+	"github.com/arcgolabs/collectionx"
 )
 
 // WithFieldT adds one typed field to logger and returns derived logger.

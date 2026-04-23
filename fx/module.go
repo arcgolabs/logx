@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	pkgfx "github.com/DaiYuANg/arcgo/pkg/fx"
+	pkgfx "github.com/arcgolabs/pkg/fx"
 	"github.com/arcgolabs/logx"
 	"go.uber.org/fx"
 )

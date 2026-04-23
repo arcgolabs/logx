@@ -8,7 +8,7 @@
 ## Install
 
 ```bash
-go get github.com/arcgolabs/arcgo/logx@latest
+go get github.com/arcgolabs/logx@latest
 ```
 
 ## Current capabilities

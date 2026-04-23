@@ -15,7 +15,7 @@ package main
 import (
 	"context"
 
-	"github.com/arcgolabs/arcgo/logx"
+	"github.com/arcgolabs/logx"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -48,7 +48,7 @@ func main() {
 
 Runnable example:
 
-- [examples/logx/trace_context](https://github.com/DaiYuANg/arcgo/tree/main/examples/logx/trace_context)
+- [examples/trace_context](../examples/trace_context/main.go)
 
 ## oops helpers
 
@@ -57,7 +57,7 @@ Runnable example:
 ```go
 package main
 
-import "github.com/arcgolabs/arcgo/logx"
+import "github.com/arcgolabs/logx"
 
 func main() {
 	logger := logx.MustNew(logx.WithConsole(true))

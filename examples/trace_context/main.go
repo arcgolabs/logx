@@ -4,7 +4,7 @@ package main
 import (
 	"context"
 
-	"github.com/DaiYuANg/arcgo/logx"
+	"github.com/arcgolabs/logx"
 	"go.opentelemetry.io/otel/trace"
 )
 

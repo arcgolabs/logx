@@ -17,7 +17,7 @@ package main
 import (
 	"log/slog"
 
-	"github.com/arcgolabs/arcgo/logx"
+	"github.com/arcgolabs/logx"
 )
 
 func main() {
@@ -42,7 +42,7 @@ func main() {
 ```go
 package main
 
-import "github.com/arcgolabs/arcgo/logx"
+import "github.com/arcgolabs/logx"
 
 func main() {
 	logger, err := logx.NewDevelopment()
@@ -58,7 +58,7 @@ func main() {
 ```go
 package main
 
-import "github.com/arcgolabs/arcgo/logx"
+import "github.com/arcgolabs/logx"
 
 func main() {
 	logger, err := logx.NewProduction()
@@ -81,7 +81,7 @@ package main
 import (
 	"log/slog"
 
-	"github.com/arcgolabs/arcgo/logx"
+	"github.com/arcgolabs/logx"
 )
 
 func main() {

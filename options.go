@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/DaiYuANg/arcgo/collectionx"
+	"github.com/arcgolabs/collectionx"
 )
 
 // Option documents related behavior.
