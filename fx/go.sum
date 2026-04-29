@@ -1,7 +1,7 @@
-github.com/arcgolabs/collectionx/internal v0.2.0 h1:h2D1f4eleFHA9BUJi2QTomtwxGIYQ8zMPxkwJLly+2k=
-github.com/arcgolabs/collectionx/internal v0.2.0/go.mod h1:H1Ihoa7PvEUJvLCjhQwydHLe6ClyIln7ZzpkuJKtB0c=
-github.com/arcgolabs/collectionx/list v0.2.0 h1:RmMVt4eX24SDFpkiwS8KcIXfgwPD+FggG6Ps+3FxfrM=
-github.com/arcgolabs/collectionx/list v0.2.0/go.mod h1:IjX8ZRyMZbJspx+VppjyrOaibDnHSY8/jkygk9Mmws4=
+github.com/arcgolabs/collectionx/internal v0.5.0 h1:uwVWL5tyxxz+DQ7/1uNUkzCABtFfe7nyU2MBF362CgE=
+github.com/arcgolabs/collectionx/internal v0.5.0/go.mod h1:H1Ihoa7PvEUJvLCjhQwydHLe6ClyIln7ZzpkuJKtB0c=
+github.com/arcgolabs/collectionx/list v0.5.0 h1:mTxLR2bbu9Mfh2dBiymQy/sF0lQEcNQwh93rbxo9Vjk=
+github.com/arcgolabs/collectionx/list v0.5.0/go.mod h1:IjX8ZRyMZbJspx+VppjyrOaibDnHSY8/jkygk9Mmws4=
 github.com/arcgolabs/pkg/fx v0.0.1 h1:aLO2TxZBTMNs7pq3JGWTwha9d69CAnl49IzFnagrH+M=
 github.com/arcgolabs/pkg/fx v0.0.1/go.mod h1:nf6OPAuC9Z3gEchb0wKpn3o/UUMfYhw4B+A5YmCgy5g=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=

@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"time"
 
-	"github.com/arcgolabs/collectionx"
+	collectionlist "github.com/arcgolabs/collectionx/list"
 )
 
 // Option documents related behavior.
@@ -236,12 +236,14 @@ func WithCaller(enabled bool) Option {
 
 // Note.
 
+type OptionList = *collectionlist.List[Option]
+
 // DevelopmentConfig documents related behavior.
 // Note.
 // Note.
 // Note.
-func DevelopmentConfig() collectionx.List[Option] {
-	return collectionx.NewList(
+func DevelopmentConfig() OptionList {
+	return collectionlist.NewList(
 		WithConsole(true),
 		WithDebugLevel(),
 		WithCaller(true),
@@ -252,8 +254,8 @@ func DevelopmentConfig() collectionx.List[Option] {
 // Note.
 // Note.
 // Note.
-func ProductionConfig(logPath string) collectionx.List[Option] {
-	return collectionx.NewList(
+func ProductionConfig(logPath string) OptionList {
+	return collectionlist.NewList(
 		WithConsole(false),
 		WithInfoLevel(),
 		WithFile(logPath),

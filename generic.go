@@ -3,7 +3,7 @@ package logx
 import (
 	"log/slog"
 
-	"github.com/arcgolabs/collectionx"
+	collectionmapping "github.com/arcgolabs/collectionx/mapping"
 )
 
 // WithFieldT adds one typed field to logger and returns derived logger.
@@ -15,11 +15,11 @@ func WithFieldT[T any](logger *slog.Logger, key string, value T) *slog.Logger {
 }
 
 // WithFieldsT adds typed fields to logger and returns derived logger.
-func WithFieldsT[T any](logger *slog.Logger, fields collectionx.Map[string, T]) *slog.Logger {
+func WithFieldsT[T any](logger *slog.Logger, fields Fields[T]) *slog.Logger {
 	if logger == nil {
 		return nil
 	}
-	converted := collectionx.NewMapWithCapacity[string, any](fields.Len())
+	converted := collectionmapping.NewMapWithCapacity[string, any](fields.Len())
 	fields.Range(func(key string, value T) bool {
 		converted.Set(key, value)
 		return true

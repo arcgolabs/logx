@@ -3,7 +3,8 @@ module github.com/arcgolabs/logx
 go 1.26.2
 
 require (
-	github.com/arcgolabs/collectionx v0.2.0
+	github.com/arcgolabs/collectionx/list v0.5.0
+	github.com/arcgolabs/collectionx/mapping v0.5.0
 	github.com/arcgolabs/pkg/option v0.0.3
 	github.com/rs/zerolog v1.35.1
 	github.com/samber/lo v1.53.0
@@ -15,13 +16,7 @@ require (
 )
 
 require (
-	github.com/arcgolabs/collectionx/internal v0.2.0 // indirect
-	github.com/arcgolabs/collectionx/interval v0.2.0 // indirect
-	github.com/arcgolabs/collectionx/list v0.2.0 // indirect
-	github.com/arcgolabs/collectionx/mapping v0.2.0 // indirect
-	github.com/arcgolabs/collectionx/prefix v0.2.0 // indirect
-	github.com/arcgolabs/collectionx/set v0.2.0 // indirect
-	github.com/arcgolabs/collectionx/tree v0.2.0 // indirect
+	github.com/arcgolabs/collectionx/internal v0.5.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.21 // indirect

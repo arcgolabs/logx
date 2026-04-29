@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"testing"
 
-	"github.com/arcgolabs/collectionx"
+	collectionmapping "github.com/arcgolabs/collectionx/mapping"
 	"github.com/arcgolabs/logx"
 )
 
@@ -27,7 +27,7 @@ func BenchmarkLoggerInfo(b *testing.B) {
 
 func BenchmarkLoggerWithFieldsInfo(b *testing.B) {
 	logger := benchmarkLogger(b)
-	fields := collectionx.NewMapFrom(map[string]any{
+	fields := collectionmapping.NewMapFrom(map[string]any{
 		"service": "arcgo",
 		"env":     "bench",
 	})

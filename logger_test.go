@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/arcgolabs/collectionx"
+	collectionmapping "github.com/arcgolabs/collectionx/mapping"
 	"github.com/arcgolabs/logx"
 	"go.opentelemetry.io/otel/trace"
 )
@@ -170,13 +170,13 @@ func TestFieldHelpers(t *testing.T) {
 	if got := logx.WithField(logger, "retry", 3); got == nil {
 		t.Fatal("expected non-nil logger")
 	}
-	if got := logx.WithFields(logger, collectionx.NewMapFrom(map[string]any{"batch": 7})); got == nil {
+	if got := logx.WithFields(logger, collectionmapping.NewMapFrom(map[string]any{"batch": 7})); got == nil {
 		t.Fatal("expected non-nil logger")
 	}
 	if got := logx.WithFieldT(logger, "tenant", "acme"); got == nil {
 		t.Fatal("expected non-nil logger")
 	}
-	if got := logx.WithFieldsT(logger, collectionx.NewMapFrom(map[string]int{"attempt": 2})); got == nil {
+	if got := logx.WithFieldsT(logger, collectionmapping.NewMapFrom(map[string]int{"attempt": 2})); got == nil {
 		t.Fatal("expected non-nil logger")
 	}
 	if got := logx.WithError(logger, errors.New("boom")); got == nil {

@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/arcgolabs/collectionx"
+	collectionlist "github.com/arcgolabs/collectionx/list"
 	"github.com/arcgolabs/pkg/option"
 	"github.com/rs/zerolog"
 	zlog "github.com/rs/zerolog/log"
@@ -94,8 +94,8 @@ func New(opts ...Option) (*slog.Logger, error) {
 		return nil, fmt.Errorf("invalid config: %w", err)
 	}
 
-	writers := collectionx.NewListWithCapacity[io.Writer](2)
-	closers := collectionx.NewListWithCapacity[io.Closer](1)
+	writers := collectionlist.NewListWithCapacity[io.Writer](2)
+	closers := collectionlist.NewListWithCapacity[io.Closer](1)
 
 	if cfg.console {
 		writers.Add(zerolog.ConsoleWriter{
@@ -221,15 +221,21 @@ func WithField(logger *slog.Logger, key string, value any) *slog.Logger {
 	return logger.With(key, value)
 }
 
+// Fields is the minimal map-like shape accepted by field helpers.
+type Fields[V any] interface {
+	Len() int
+	Range(func(string, V) bool)
+}
+
 // WithFields adds fields and returns a derived logger.
-func WithFields(logger *slog.Logger, fields collectionx.Map[string, any]) *slog.Logger {
+func WithFields(logger *slog.Logger, fields Fields[any]) *slog.Logger {
 	if logger == nil {
 		return nil
 	}
 	if fields == nil || fields.Len() == 0 {
 		return logger
 	}
-	args := collectionx.NewListWithCapacity[any](fields.Len() * 2)
+	args := collectionlist.NewListWithCapacity[any](fields.Len() * 2)
 	fields.Range(func(key string, value any) bool {
 		args.Add(key, value)
 		return true
