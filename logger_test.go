@@ -2,6 +2,7 @@ package logx_test
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"log/slog"
 	"os"
@@ -11,6 +12,7 @@ import (
 
 	collectionmapping "github.com/arcgolabs/collectionx/mapping"
 	"github.com/arcgolabs/logx"
+	"github.com/samber/oops"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -200,6 +202,74 @@ func TestOopsHelpers(t *testing.T) {
 	}
 	if logx.OopsWith(context.Background()) == nil {
 		t.Fatal("expected non-nil context oops error")
+	}
+}
+
+func TestSlogOopsErrorIsStructuredAndPreservesStacktraceNewlines(t *testing.T) {
+	t.Parallel()
+
+	logPath := filepath.Join(t.TempDir(), "oops.log")
+	logger, err := logx.New(
+		logx.WithConsole(false),
+		logx.WithFile(logPath),
+		logx.WithFileRotation(1, 0, 0),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	oopsErr := oops.
+		In("payments").
+		With("driver", "postgresql").
+		Errorf("could not fetch user")
+	logger.Error("request failed", "error", oopsErr)
+
+	if err := logx.Close(logger); err != nil {
+		t.Fatal(err)
+	}
+
+	content, err := os.ReadFile(logPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	raw := strings.TrimSpace(string(content))
+	lines := strings.Split(raw, "\n")
+	if len(lines) != 1 {
+		t.Fatalf("expected a single log line, got %d lines: %q", len(lines), string(content))
+	}
+	if strings.Contains(raw, "\\\\n") {
+		t.Fatalf("expected stacktrace newlines to be JSON-escaped once, got double escapes: %q", raw)
+	}
+	if !strings.Contains(raw, "\\n") {
+		t.Fatalf("expected JSON-escaped stacktrace newlines, got %q", raw)
+	}
+
+	payload := map[string]any{}
+	if err := json.Unmarshal([]byte(lines[0]), &payload); err != nil {
+		t.Fatal(err)
+	}
+
+	errorPayload, ok := payload["error"].(map[string]any)
+	if !ok {
+		t.Fatalf("expected structured error payload, got %#v", payload["error"])
+	}
+	if got := errorPayload["err"]; got != "could not fetch user" {
+		t.Fatalf("expected oops error text, got %#v", got)
+	}
+	if got := errorPayload["domain"]; got != "payments" {
+		t.Fatalf("expected oops domain, got %#v", got)
+	}
+
+	stacktrace, ok := errorPayload["stacktrace"].(string)
+	if !ok || stacktrace == "" {
+		t.Fatalf("expected stacktrace field, got %#v", errorPayload["stacktrace"])
+	}
+	if !strings.Contains(stacktrace, "\n") {
+		t.Fatalf("expected parsed stacktrace to contain real line breaks, got %q", stacktrace)
+	}
+	if strings.Contains(stacktrace, "\\n") {
+		t.Fatalf("expected parsed stacktrace to avoid literal newline escapes, got %q", stacktrace)
 	}
 }
 

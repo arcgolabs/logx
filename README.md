@@ -17,7 +17,7 @@ go get github.com/arcgolabs/logx@latest
 - Console output and file output (+ rotation via `lumberjack`)
 - Optional caller (`WithCaller(true)`) and optional global `zerolog` logger (`WithGlobalLogger()`)
 - Trace/span fields from OpenTelemetry context (`WithTraceContext`)
-- oops helpers (`Oops`/`Oopsf`/`OopsWith`) and logging helpers (`LogOops`)
+- Structured `oops` error output through regular `slog` error fields
 
 ## Documentation map
 
@@ -28,3 +28,4 @@ go get github.com/arcgolabs/logx@latest
 ## Runnable examples
 
 - Trace context: [examples/logx/trace_context](./examples/trace_context/main.go)
+- oops integration: [examples/oops_integration](./examples/oops_integration/main.go)

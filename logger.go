@@ -15,13 +15,10 @@ import (
 	"github.com/rs/zerolog"
 	zlog "github.com/rs/zerolog/log"
 	"github.com/samber/lo"
-	oopszerolog "github.com/samber/oops/loggers/zerolog"
 	slogzerolog "github.com/samber/slog-zerolog/v2"
 	"go.opentelemetry.io/otel/trace"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
-
-var oopsMarshalerOnce sync.Once
 
 type lifecycleState struct {
 	cfg     config
@@ -98,11 +95,7 @@ func New(opts ...Option) (*slog.Logger, error) {
 	closers := collectionlist.NewListWithCapacity[io.Closer](1)
 
 	if cfg.console {
-		writers.Add(zerolog.ConsoleWriter{
-			Out:        os.Stdout,
-			TimeFormat: cfg.timeFormat,
-			NoColor:    cfg.noColor,
-		})
+		writers.Add(newConsoleWriter(cfg))
 	}
 
 	if cfg.filePath != "" {
@@ -126,11 +119,6 @@ func New(opts ...Option) (*slog.Logger, error) {
 		writers.Add(os.Stdout)
 	}
 
-	oopsMarshalerOnce.Do(func() {
-		zerolog.ErrorStackMarshaler = oopszerolog.OopsStackMarshaller
-		zerolog.ErrorMarshalFunc = oopszerolog.OopsMarshalFunc
-	})
-
 	base := zerolog.New(io.MultiWriter(writers.Values()...)).
 		Level(toZerologLevel(cfg.level)).
 		With().
@@ -152,7 +140,7 @@ func New(opts ...Option) (*slog.Logger, error) {
 	}.NewZerologHandler()
 
 	return slog.New(&managedHandler{
-		Handler: handler,
+		Handler: newErrorFormattingHandler(handler),
 		state:   state,
 	}), nil
 }

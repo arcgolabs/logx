@@ -50,20 +50,31 @@ Runnable example:
 
 - [examples/trace_context](../examples/trace_context/main.go)
 
-## oops helpers
+## oops errors
 
-`logx` provides small helpers for `oops`-compatible errors:
+`logx` formats `oops`-compatible errors through the standard `slog` API. Use
+regular `error` or `err` fields; `logx` will keep the error payload structured.
+JSON output keeps stacktrace line breaks as standard `\n` escapes, so log
+processors can restore them as real newlines. Console output extracts the
+stacktrace into a readable multi-line block.
 
 ```go
 package main
 
-import "github.com/arcgolabs/logx"
+import (
+	"github.com/arcgolabs/logx"
+	"github.com/samber/oops"
+)
 
 func main() {
 	logger := logx.MustNew(logx.WithConsole(true))
 	defer func() { _ = logx.Close(logger) }()
 
-	err := logx.Oopsf("upstream %s failed", "payment")
-	logx.LogOops(logger, err)
+	err := oops.In("payment").Errorf("upstream failed")
+	logger.Error("request failed", "error", err)
 }
 ```
+
+Runnable example:
+
+- [examples/oops_integration](../examples/oops_integration/main.go)
