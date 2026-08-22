@@ -32,9 +32,10 @@ func newConsoleWriter(cfg config) zerolog.ConsoleWriter {
 		TimeFormat:    cfg.timeFormat,
 		NoColor:       cfg.noColor,
 		FieldsExclude: []string{consoleStacktraceKey, consoleSourcesKey},
+
+		FormatPrepare: prepareConsoleOopsFields,
+		FormatExtra:   formatConsoleOopsFields,
 	}
-	writer.FormatPrepare = prepareConsoleOopsFields
-	writer.FormatExtra = formatConsoleOopsFields
 	return writer
 }
 

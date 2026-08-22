@@ -2,27 +2,45 @@ package logx
 
 import (
 	"log/slog"
-
-	collectionmapping "github.com/arcgolabs/collectionx/mapping"
 )
 
-// WithFieldT adds one typed field to logger and returns derived logger.
-func WithFieldT[T any](logger *slog.Logger, key string, value T) *slog.Logger {
-	if logger == nil {
-		return nil
-	}
-	return WithField(logger, key, value)
+// FieldSet is the minimal map-like shape accepted by Enricher.WithFields.
+type FieldSet[V any] interface {
+	Len() int
+	Range(func(string, V) bool)
 }
 
-// WithFieldsT adds typed fields to logger and returns derived logger.
-func WithFieldsT[T any](logger *slog.Logger, fields Fields[T]) *slog.Logger {
-	if logger == nil {
+// Enricher derives slog loggers with strongly typed fields.
+type Enricher struct {
+	logger *slog.Logger
+}
+
+// Enrich creates a typed field enricher for logger.
+func Enrich(logger *slog.Logger) Enricher {
+	return Enricher{logger: logger}
+}
+
+// WithField adds one typed field and returns a derived logger.
+func (e Enricher) WithField[V any](key string, value V) *slog.Logger {
+	if e.logger == nil {
 		return nil
 	}
-	converted := collectionmapping.NewMapWithCapacity[string, any](fields.Len())
-	fields.Range(func(key string, value T) bool {
-		converted.Set(key, value)
+	return e.logger.With(key, value)
+}
+
+// WithFields adds typed fields and returns a derived logger.
+func (e Enricher) WithFields[V any](fields FieldSet[V]) *slog.Logger {
+	if e.logger == nil {
+		return nil
+	}
+	if fields == nil || fields.Len() == 0 {
+		return e.logger
+	}
+
+	args := make([]any, 0, fields.Len()*2)
+	fields.Range(func(key string, value V) bool {
+		args = append(args, key, value)
 		return true
 	})
-	return WithFields(logger, converted)
+	return e.logger.With(args...)
 }

@@ -7,7 +7,7 @@ weight: 2
 
 ## Getting started
 
-`logx.New(...)` returns a standard `*slog.Logger`. If you enable file output, make sure to close resources via `logx.Close(logger)` (it is safe to call even when only console output is used).
+`logx.New(...)` returns a standard `*slog.Logger`. The module requires Go 1.27 or newer. If you enable file output, make sure to close resources via `logx.Close(logger)` (it is safe to call even when only console output is used).
 
 ## Minimal example
 
@@ -33,10 +33,12 @@ func main() {
 
 	logger.Info("service started", "service", "user-api")
 
-	reqLogger := logx.WithField(logger, "request_id", "req_123")
+	reqLogger := logx.Enrich(logger).WithField("request_id", "req_123")
 	reqLogger.Info("request accepted", "path", "/api/health")
 }
 ```
+
+`Enricher.WithField` and `Enricher.WithFields` are Go 1.27 generic methods. `WithFields` accepts map-like collections whose values have any concrete type, including `collectionx/mapping.Map`.
 
 ## Next
 

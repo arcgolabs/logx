@@ -201,36 +201,6 @@ func ConfigOf(logger *slog.Logger) (Config, bool) {
 	return handler.state.cfg.export(), true
 }
 
-// WithField adds one field and returns a derived logger.
-func WithField(logger *slog.Logger, key string, value any) *slog.Logger {
-	if logger == nil {
-		return nil
-	}
-	return logger.With(key, value)
-}
-
-// Fields is the minimal map-like shape accepted by field helpers.
-type Fields[V any] interface {
-	Len() int
-	Range(func(string, V) bool)
-}
-
-// WithFields adds fields and returns a derived logger.
-func WithFields(logger *slog.Logger, fields Fields[any]) *slog.Logger {
-	if logger == nil {
-		return nil
-	}
-	if fields == nil || fields.Len() == 0 {
-		return logger
-	}
-	args := collectionlist.NewListWithCapacity[any](fields.Len() * 2)
-	fields.Range(func(key string, value any) bool {
-		args.Add(key, value)
-		return true
-	})
-	return logger.With(args.Values()...)
-}
-
 // WithError adds an error field and returns a derived logger.
 func WithError(logger *slog.Logger, err error) *slog.Logger {
 	if logger == nil {

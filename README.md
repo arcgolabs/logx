@@ -11,13 +11,25 @@
 go get github.com/arcgolabs/logx@latest
 ```
 
+`logx` now requires Go 1.27 or newer.
+
 ## Current capabilities
 
 - `*slog.Logger` output backed by `zerolog`
 - Console output and file output (+ rotation via `lumberjack`)
 - Optional caller (`WithCaller(true)`) and optional global `zerolog` logger (`WithGlobalLogger()`)
+- Typed field enrichment through Go 1.27 generic methods (`logx.Enrich(logger).WithField/WithFields`)
 - Trace/span fields from OpenTelemetry context (`WithTraceContext`)
 - Structured `oops` error output through regular `slog` error fields
+
+## Go 1.27 typed fields
+
+```go
+requestLogger := logx.Enrich(logger).WithField("request_id", "req_123")
+requestLogger = logx.Enrich(requestLogger).WithFields(typedFields)
+```
+
+The package-level `WithField`, `WithFieldT`, `WithFields`, and `WithFieldsT` helpers were replaced by the generic `Enricher` methods above.
 
 ## Documentation map
 

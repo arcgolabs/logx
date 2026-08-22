@@ -20,8 +20,8 @@ func BenchmarkLoggerInfo(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := range b.N {
-		logger.Info("benchmark message", "key", "value", "count", i)
+	for b.Loop() {
+		logger.Info("benchmark message", "key", "value", "count", 1)
 	}
 }
 
@@ -35,8 +35,8 @@ func BenchmarkLoggerWithFieldsInfo(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for range b.N {
-		logx.WithFields(logger, fields).Info("with-fields")
+	for b.Loop() {
+		logx.Enrich(logger).WithFields(fields).Info("with-fields")
 	}
 }
 
@@ -46,7 +46,7 @@ func BenchmarkSlogInfo(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 
-	for i := range b.N {
-		slogLogger.Info("slog benchmark", "key", "value", "count", i)
+	for b.Loop() {
+		slogLogger.Info("slog benchmark", "key", "value", "count", 1)
 	}
 }
